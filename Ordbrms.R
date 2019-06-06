@@ -1,5 +1,3 @@
-# 
-# 
 # library("brms")
 # library("tidyverse")
 # library("ordPens")
@@ -15,12 +13,13 @@ library (tidyverse)
 library (brms)
 
 a<-c("1","2","3")
-rat1<-factor(sample(a,50,TRUE,c(1/3,1/3,1/3)))
-rat2<-factor(sample(a,50,TRUE,c(1/5,2/5,2/5)))
-rating<-c(rat1,rat2)
 
-subject<-rep(seq(1,50),2)
-ab <- factor(c(rep(1,50),rep(2,50)), ordered = FALSE)
+rat1<-sample(a,10,TRUE,c(2/3,1/6,1/6))
+rat2<-sample(a,10,TRUE,c(1/5,2/5,2/5))
+rating<-factor(c(rat1,rat2), ordered=TRUE)
+subject<-factor(rep(seq(1,10),2))
+
+ab <- factor(c(rep(1,10),rep(2,10)), ordered = FALSE)
 
 prior_ma <- prior(normal(0, 5), class = "b") +
   prior(normal(0, 5), class = "Intercept")
@@ -32,4 +31,4 @@ fit1 <- brm(rating ~ ab+(1|subject), data = dat, prior= prior_ma, family=acat(li
 summary(fit1)
 plot(fit1)
 plot(marginal_effects(fit1, categorical = TRUE))
-
+marginal_smooths(fit1)
