@@ -22,8 +22,10 @@ melted_pre <-
   )  %>% replace(., is.na(.), 0)
 
 
-assdata<- bind_rows(melted_pre,melted_post) %>%
-  mutate(pl= factor(pl,levels= c("0","1","2","3"), ordered=TRUE))
+assdata<- bind_rows(melted_pre,melted_post) %>%  filter(pl !=0 )%>% 
+  mutate(pl= factor(pl, ordered=TRUE, levels= c("1","2","3")))
+                    # levels= c("0","1","2","3")))
+  assdata<-rename(assdata, compItem = variable)
 # 
 # 
 # postpem<-postpem %>% replace(., is.na(.), 0)
